@@ -13,8 +13,7 @@ export const getMovieDetails = async (id) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NzhhNWFhODY0NDcxNzY2MTc4NDMyNTNhYzlkZmE5MyIsIm5iZiI6MTc0MTc4NDk1NC43NDcsInN1YiI6IjY3ZDE4NzdhODZmZWE2MGFiODFlMjkxYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ecsoLNrkoWVNapX3IZZM_Z-q8j6pb3eHflPNLNGXgTY",
+      Authorization: import.meta.env.VITE_MOVIEDB_BEARER_TOKEN,
     },
   };
 
