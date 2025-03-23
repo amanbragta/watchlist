@@ -18,7 +18,7 @@ function Favourites(){
             {!session ? (
                 <div>
                      Sign in to save or view your watchlist.
-                     <button onClick={signIn}>Sign In</button>
+                     <button onClick={signIn} className='btn-sign-in'>Sign In</button>
                 </div>
             ):(
                 <div>
@@ -26,7 +26,7 @@ function Favourites(){
                 {
                     (favourites?.length>0 ? (
                         <div className='favorites'>
-                        <h2>Your favourites</h2>
+                        <h2>Your watchlist</h2>
                     <div className="movies-grid">
                     {favourites.map(favourite=><MovieCard key={favourite.movie.id} movie={favourite.movie}/>)}
                    </div>

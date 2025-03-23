@@ -1,0 +1,34 @@
+.main-area{
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+
+}
+
+.sign-in-area{
+    margin-top: 2rem;
+}
+
+.specs-area{
+    margin-top:2rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.specs{
+    display: flex;
+    gap: .5rem;
+}
+
+.spec-heading{
+    font-weight: bold;
+}
+
+.btn{
+    margin-top: 2rem;
+}
+
+.icon{
+    width: 50px;
+}

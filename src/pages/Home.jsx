@@ -17,7 +17,6 @@ function Home(){
             } catch(err){
                 console.log(err)
                 setError(err)
-
             } finally{
                 setLoading(false)
             }
