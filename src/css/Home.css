@@ -4,6 +4,12 @@
     box-sizing: border-box;
   }
   
+  .main-heading{
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
   .search-form {
     max-width: 600px;
     margin: 0 auto 2rem;
@@ -60,4 +66,16 @@
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
+  }
+
+  @media (max-width: 400px){
+    .search-form{
+      flex-direction: column;
+    }
+    .movies-grid{
+      grid-template-columns: 1fr;
+    }
+    .main-heading{
+      display: none;
+    }
   }

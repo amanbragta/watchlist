@@ -32,3 +32,20 @@
 .icon{
     width: 50px;
 }
+
+@media (max-width:890px){
+    .main-area{
+        grid-template-columns: 1fr;
+    }
+    .movie-title{
+        text-align: center;
+    }
+    .main-image{
+        margin: auto;
+        width: 100%;
+    }
+    .main-image img{
+        width: 100%;
+    }
+
+}

@@ -45,3 +45,9 @@
       padding: 0.5rem;
     }
   }
+
+  @media (max-width: 350px){
+    .navbar{
+      flex-direction: column;
+    }
+  }

@@ -35,9 +35,9 @@ function MovieInfo(){
         <div className="">
             {movie? (
                 <div className='thumbnail-area'>
-                <h1>{movie?.title} </h1>
+                <h1 className='movie-title'>{movie?.title} </h1>
                 <div className='main-area'>
-                    <div>
+                    <div className='main-image'>
                     <img src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`} alt=""/>
                     </div>
                     <div className="desc-area">
