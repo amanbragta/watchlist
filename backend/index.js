@@ -15,7 +15,7 @@ mongoose
   .connect(process.env.MONGO_DB)
   .then(() => console.log("connected to mongo"))
   .catch((err) => console.log(err));
-
+app.set("trust proxy", 1);
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 
