@@ -3,7 +3,6 @@ import './css/App.css'
 import Home from './pages/Home'
 import Favourites from './pages/Favourites'
 import NavBar from './components/NavBar'
-import { MovieProvider } from './contexts/MovieContext'
 import MovieInfo from './pages/MovieInfo'
 import Register from './pages/Register'
 import Login from './pages/Login'
@@ -11,7 +10,7 @@ import SearchPage from './pages/SearchPage'
 
 function App() {
   return (
-    <MovieProvider>
+    <>
       <NavBar/>
       <main className='main-content'>
         <Routes>
@@ -23,7 +22,7 @@ function App() {
           <Route path='/search' element={<SearchPage/>}/>
         </Routes>
       </main>
-    </MovieProvider>
+      </>
       
   )
 }
