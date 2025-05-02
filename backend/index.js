@@ -25,7 +25,7 @@ app.use(
     saveUninitialized: false,
     resave: false,
     cookie: {
-      maxAge: 60000 * 60,
+      maxAge: 60000 * 60 * 24,
       sameSite: "none",
     },
     store: MongoStore.create({
@@ -39,6 +39,7 @@ app.use(passport.session());
 app.use("/auth", authRouter);
 app.use("/save", savedRouter);
 app.use("/user", userRouter);
+app.get("/", (req, res) => res.send("hello vercel!"));
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
@@ -49,6 +50,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
