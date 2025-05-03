@@ -2,16 +2,34 @@ import '../css/MovieCard.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import { getUser } from '../../store/userSlice'
+import { failedOptimisticSave, getUser, optimisticSave } from '../../store/userSlice'
+import {useMutation} from '@tanstack/react-query'
 
 function MovieCard({movie}){
     const selector = useSelector(state=>state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const isFavourite = selector?.saved?.some(savedMovie=>savedMovie.id===movie.id)
+    const {mutate} = useMutation({
+        mutationFn: (movie)=>{
+            return axios.patch(`${import.meta.env.VITE_API_URL}/save/toggle`,{...movie},{withCredentials:true})
+        },
+        onMutate:()=>{
+            const staleData = selector.saved
+            dispatch(optimisticSave(movie))
+            return staleData
+        },
+        onError:(_error,_movie,context)=>{
+            dispatch(failedOptimisticSave(context))
+        },
+        onSettled:()=>{
+            dispatch(getUser())
+        }
+    })
     async function onFavouriteClick(){
-        await axios.patch(`${import.meta.env.VITE_API_URL}/save/toggle`,{...movie},{withCredentials:true})
-        dispatch(getUser())
+        // await axios.patch(`${import.meta.env.VITE_API_URL}/save/toggle`,{...movie},{withCredentials:true})
+        // dispatch(getUser())
+        mutate(movie)
     }
     return(
         <div className="movie-card">

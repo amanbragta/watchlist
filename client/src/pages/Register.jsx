@@ -13,7 +13,7 @@ const Register =()=>{
     const navigate = useNavigate()
     const [errMessage,setErrMessage] = useState('')
 
-    const {mutate,isError} = useMutation({
+    const {mutate,isError, isPending} = useMutation({
         mutationFn:()=>{
             return axios.post(`${import.meta.env.VITE_API_URL}/auth/register`,{username,password},{withCredentials:true})
         },
@@ -43,7 +43,7 @@ const Register =()=>{
                 </div>
                 <div className='formButton-section'>
                     <div>
-                    <button className='formButton' onClick={registerUser}>Register</button>
+                    <button className='formButton' onClick={registerUser} disabled={isPending}>Register</button>
                     </div>
                     {isError && <span className='form-error'>{errMessage}</span>}
                 </div>

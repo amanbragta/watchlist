@@ -10,7 +10,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const findUser = await User.findById(id);
-    if (!findUser) throw new Error("User not found");
     const user = {
       username: findUser.username,
       saved: findUser.saved,
@@ -26,10 +25,10 @@ export default passport.use(
   new Strategy(async (username, password, done) => {
     try {
       const findUser = await User.findOne({ username });
-      if (!findUser) throw new Error("Invalid username");
+      if (!findUser) return done(null, false, { message: "User not found." });
       const comparePass = await comparePassword(password, findUser.password);
       if (!comparePass) {
-        throw new Error("Wrong password");
+        return done(null, false, { message: "Incorrect password" });
       }
       return done(null, findUser);
     } catch (err) {

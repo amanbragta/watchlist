@@ -13,9 +13,9 @@ const Login =()=>{
     const [password,setPassword] = useState('')
     const [errMessage,setErrMessage] = useState('')
 
-    const {mutate,isError} = useMutation({
-        mutationFn:()=>{
-            return axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,{username,password},{withCredentials:true})
+    const {mutate,isError, isPending} = useMutation({
+        mutationFn: async ()=>{
+            await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,{username,password},{withCredentials:true})
         },
         onSuccess: ()=>{
             dispatch(getUser())
@@ -44,7 +44,7 @@ const Login =()=>{
                 </div>
                 <div className='formButton-section'>
                     <div>
-                    <button className='formButton' onClick={login}>Login</button>
+                    <button className='formButton' onClick={login} disabled={isPending}>Login</button>
                     </div>
                     {isError && <span className='form-error'>{errMessage}</span>}
                 </div>

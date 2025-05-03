@@ -44,3 +44,23 @@
 .form-error{
     color: red;
 }
+
+button:disabled{
+    color: white;
+    background-color: gray;
+    border-color: gray;
+}
+
+@media (max-width:720px){
+    .authForm{
+        flex-direction: column;
+        gap: 32px;
+        text-align: center;
+    }
+}
+
+@media (max-width:426px){
+    h1{
+        font-size:xx-large ;
+    }
+}

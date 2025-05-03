@@ -24,6 +24,19 @@ const userSlice = createSlice({
     resetUser: (state) => {
       state.user = undefined;
     },
+    optimisticSave: (state, action) => {
+      const isSaved = state.saved.some((save) => save.id === action.payload.id);
+      if (isSaved) {
+        state.saved = state.saved.filter(
+          (save) => save.id != action.payload.id
+        );
+      } else {
+        state.saved = [...state.saved, action.payload];
+      }
+    },
+    failedOptimisticSave: (state, action) => {
+      state.saved = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -43,5 +56,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { resetUser } = userSlice.actions;
+export const { resetUser, optimisticSave, failedOptimisticSave } =
+  userSlice.actions;
 export default userSlice.reducer;
