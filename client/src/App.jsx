@@ -7,8 +7,15 @@ import MovieInfo from './pages/MovieInfo'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import SearchPage from './pages/SearchPage'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { getUser } from '../store/userSlice'
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getUser())
+  },[])
   return (
     <>
       <NavBar/>
