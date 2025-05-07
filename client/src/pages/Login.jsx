@@ -5,16 +5,27 @@ import { useDispatch } from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 import { getUser } from '../../store/userSlice'
 import {useMutation} from '@tanstack/react-query'
+import { useFormik } from 'formik'
+import { userValidationSchema } from '../../utils/userValidationSchema'
 
 const Login =()=>{
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [username,setUsername] = useState('')
-    const [password,setPassword] = useState('')
     const [errMessage,setErrMessage] = useState('')
+     const formik = useFormik({
+            initialValues:{
+                username:'',
+                password:''
+            },
+            validationSchema: userValidationSchema,
+            onSubmit:(values)=>{
+                mutate(values)
+                //console.log(values)
+            }
+        })
 
     const {mutate,isError, isPending} = useMutation({
-        mutationFn: async ()=>{
+        mutationFn: async ({username,password})=>{
             await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,{username,password},{withCredentials:true})
         },
         onSuccess: ()=>{
@@ -26,25 +37,27 @@ const Login =()=>{
         }
     })
 
-    async function login(e){
-        e.preventDefault()
-        mutate()
-    }
     return(
         <div className="authForm">
             <h1>Welcome back!</h1>
-            <form className="formContent">
-                <div className='form-inner-div'>
+            <form className="formContent" onSubmit={formik.handleSubmit}>
+            <div className='form-inner-div'>
                     <label htmlFor="username">Username</label>
-                    <input id="username" value={username} onChange={e=>setUsername(e.target.value)} type="text" className='textField'/>
+                    <div className='form-text'>
+                    <input id="username" type="text" {...formik.getFieldProps('username')} className='textField'/>
+                    {formik.touched.username && formik.errors.username && <span className='formErrors'>{formik.errors.username}</span>}
+                    </div>
                 </div>
                 <div className='form-inner-div'>
                     <label htmlFor="password">Password</label>
-                    <input id="password" value={password} onChange={e=>setPassword(e.target.value)} type="password" className='textField'/>
+                    <div className='form-text'>
+                    <input id="password" type="password" {...formik.getFieldProps('password')} className='textField'/>
+                    {formik.touched.password && formik.errors.password && <span className='formErrors'>{formik.errors.password}</span>}
+                    </div>
                 </div>
                 <div className='formButton-section'>
                     <div>
-                    <button className='formButton' onClick={login} disabled={isPending}>Login</button>
+                    <button className='formButton'type='submit' disabled={isPending}>Login</button>
                     </div>
                     {isError && <span className='form-error'>{errMessage}</span>}
                 </div>

@@ -5,47 +5,60 @@ import { useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../../store/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import {useFormik} from 'formik'
+import { userValidationSchema } from '../../utils/userValidationSchema';
 
 const Register =()=>{
-    const [username,setUsername] = useState('')
-    const [password,setPassword] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [errMessage,setErrMessage] = useState('')
+    const [err, setErr] = useState('')
+    const formik = useFormik({
+        initialValues:{
+            username:'',
+            password:''
+        },
+        validationSchema: userValidationSchema,
+        onSubmit:(values)=>{
+            mutate(values)
+            //console.log(values)
+        }
+    })
 
-    const {mutate,isError, isPending} = useMutation({
-        mutationFn:()=>{
+    const {mutate, isPending} = useMutation({
+        mutationFn:({username,password})=>{
             return axios.post(`${import.meta.env.VITE_API_URL}/auth/register`,{username,password},{withCredentials:true})
         },
         onSuccess: ()=>{
             dispatch(getUser())
             navigate('/')
         },
-        onError: (err)=>{
-            if(err.response.data.code===11000) setErrMessage("Username already exists")
+        onError:(err)=>{
+            typeof(err.response.data.message)==='object'? setErr(err.response.data.message[0].msg):setErr(err.response.data.message)
         }
     })
-    async function registerUser(e){
-        e.preventDefault()
-        mutate()
-    }
     return(
         <div className="authForm">
             <h1>One step process.</h1>
-            <form className="formContent">
+            <form className="formContent" onSubmit={formik.handleSubmit}>
                 <div className='form-inner-div'>
                     <label htmlFor="username">Username</label>
-                    <input id="username" type="text" value={username} onChange={e=>setUsername(e.target.value)} className='textField'/>
+                    <div className='form-text'>
+                    <input id="username" type="text" {...formik.getFieldProps('username')} className='textField'/>
+                    {formik.touched.username && formik.errors.username && <span className='formErrors'>{formik.errors.username}</span>}
+                    </div>
                 </div>
                 <div className='form-inner-div'>
                     <label htmlFor="password">Password</label>
-                    <input id="password" type="password" value={password} onChange={e=>setPassword(e.target.value)} className='textField'/>
+                    <div className='form-text'>
+                    <input id="password" type="password" {...formik.getFieldProps('password')} className='textField'/>
+                    {formik.touched.password && formik.errors.password && <span className='formErrors'>{formik.errors.password}</span>}
+                    </div>
                 </div>
                 <div className='formButton-section'>
                     <div>
-                    <button className='formButton' onClick={registerUser} disabled={isPending}>Register</button>
+                    <button className='formButton' type='submit' disabled={isPending}>Register</button>
                     </div>
-                    {isError && <span className='form-error'>{errMessage}</span>}
+                    {err && <span className='form-error'>{err}</span>}
                 </div>
                 <div>
                     Already in the club? <Link to={'/login'}>Login</Link>

@@ -51,6 +51,18 @@ button:disabled{
     border-color: gray;
 }
 
+.form-text{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.formErrors{
+    color: red;
+    font-size: small;
+    width: 150px; ;
+}
+
 @media (max-width:720px){
     .authForm{
         flex-direction: column;

@@ -44,8 +44,8 @@ const userSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.user = action.payload.data.username;
-        state.saved = action.payload.data.saved;
+        state.user = action.payload.data?.username;
+        state.saved = action.payload.data?.saved;
         state.isLoading = false;
       })
       .addCase(getUser.rejected, (state, action) => {

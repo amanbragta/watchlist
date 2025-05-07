@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { User } from "../models/user.model.js";
 import { hashPassword } from "../utils/password-helpers.js";
 
@@ -6,7 +7,13 @@ export const signIn = (req, res) => {
 };
 
 export const signUp = async (req, res) => {
+  const result = validationResult(req);
+  if (!result.isEmpty())
+    return res.status(400).send({ message: result.array() });
   const { body } = req;
+  const usernameAvailable = await User.findOne({ username: body.username });
+  if (usernameAvailable)
+    return res.status(400).send({ message: "Username already taken." });
   const password = await hashPassword(body.password);
   body.password = password;
   const newUser = new User(body);
