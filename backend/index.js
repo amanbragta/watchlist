@@ -29,9 +29,9 @@ app.use(
       secure: true,
       sameSite: "None",
     },
-    // store: MongoStore.create({
-    //   client: mongoose.connection.getClient(),
-    // }),
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+    }),
   })
 );
 
